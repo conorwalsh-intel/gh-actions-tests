@@ -1,0 +1,37 @@
+# Builds for Sample Program
+---
+name: "Builds"
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  workflow_dispatch:
+  schedule:
+    - cron: '2 0 * * *'
+
+jobs:
+  build_sample:
+    name: Build Sample
+    runs-on: ubuntu-latest
+    env:
+      DEBIAN_FRONTEND: noninteractive
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Build Sample Program
+      run: make
+
+    - name: Check Output
+      run: ./bin/sample_program
+
+    - name: Upload Binary
+      uses: actions/upload-artifact@v4
+      id: artifact
+      with:
+        name: sample_program-${{ github.head_ref }}
+        path: bin/sample_program
