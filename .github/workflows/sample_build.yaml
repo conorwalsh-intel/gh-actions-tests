@@ -10,7 +10,7 @@ on:
       - synchronize
   workflow_dispatch:
   schedule:
-    - cron: '40 11 * * *'
+    - cron: '15 12 * * *'
 
 jobs:
   build_sample:
@@ -32,7 +32,7 @@ jobs:
     - name: Save Output
       run: ./bin/sample_program > output.txt
 
-    - name: Comment New Defects on PR
+    - name: Comment on PR
       if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
       uses: actions/github-script@v7
       with:
